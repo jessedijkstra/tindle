@@ -33,9 +33,6 @@ export default function cards(state = initialState, action = {}) {
     case Types.REMOVE_CARD:
       return updateCard(state, id, { remove: true, active: false, readLater: false });
 
-    case Types.GET_CONTENT_OK:
-      return updateCard(state, id, { active: true })
-
     case Types.TOGGLE_CARD:
       return updateCard(state, id, { active: !current.active });
 

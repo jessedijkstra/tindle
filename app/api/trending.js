@@ -1,15 +1,9 @@
 import { composeP, curry } from 'ramda';
 import { getJWT } from './jwt';
-import { OFFLINE } from '../config/app';
-import { TRENDING } from '../fixtures/trending';
 
 const url = (userUid)=> `https://ws.blendle.com/user/${userUid}/tiles/following?user_context=${userUid}&zoom=b%3Atiles%2Cb%3Aitem%2Cmanifest`;
 
-const getTrendingWithJWT = curry((userUid, jwt)=> {
-  if (OFFLINE) {
-    return Promise.resolve(TRENDING);
-  }
-
+const getTrendingWithJWT = curry((userUid, { jwt })=> {
   return fetch(url(userUid), {
     method: 'get',
     headers: {

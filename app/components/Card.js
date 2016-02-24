@@ -1,6 +1,9 @@
 import React, { ScrollView, View, TouchableWithoutFeedback, Animated, PanResponder, Componen } from 'react-native';
 import clamp from 'clamp';
 import { partial } from 'ramda';
+import Dimensions from 'Dimensions';
+import Easing from 'Easing';
+const { height, width } = Dimensions.get('window');
 
 const SWIPE_THRESHOLD = 40;
 
@@ -21,6 +24,14 @@ const style = {
     width: 0
   }
 };
+
+function getDirection(vx) {
+  if (vx < 0) {
+    return -1;
+  }
+
+  return 1;
+}
 
 const createPanResponder = (component, pan)=> PanResponder.create({
   onMoveShouldSetResponderCapture: () => !component.props.active,
@@ -44,19 +55,12 @@ const createPanResponder = (component, pan)=> PanResponder.create({
       return;
     }
 
-    if (vx >= 0) {
-      velocity = clamp(vx, 3, 5);
-    } else if (vx < 0) {
-      velocity = clamp(vx * -1, 3, 5) * -1;
-    }
-
     if (Math.abs(pan.x._value) > SWIPE_THRESHOLD) {
-      component.props.onLeave(component.props.id, pan.x._value);
-
-      Animated.decay(pan, {
-        velocity: {x: velocity, y: vy},
-        deceleration: 0.98
-      }).start();
+      Animated.timing(pan, {
+        duration: 100,
+        toValue: { x: (width + 100) * getDirection(vx), y: vy},
+        easing: Easing.out(Easing.ease),
+      }).start(()=> component.props.onLeave(component.props.id, pan.x._value));
     } else {
       Animated.spring(pan, {
         toValue: {x: 0, y: 0},
@@ -126,7 +130,7 @@ export default class Card extends React.Component {
 
     const rotate = pan.x.interpolate({
       inputRange: [-200, 0, 200],
-      outputRange: ["-30deg", "0deg", "30deg"]
+      outputRange: ["-10deg", "0deg", "10deg"]
     });
 
     return {

@@ -14,11 +14,11 @@ export function remove (id, delta) {
 }
 
 export function toggle (id, active) {
-  if (active) {
-    return process(Types.TOGGLE_CARD, id);
-  }
+  return dispatch =>  {
+    dispatch(process(Types.TOGGLE_CARD, id));
 
-  return get(id, active);
+    return dispatch(get(id, active));
+  }
 }
 
 export function move (id, delta) {
