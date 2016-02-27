@@ -25,9 +25,9 @@ class TindleContainer extends Component {
 
 export default connect(
   (state) => ({
-    later: state.later.length,
-    removed: state.removed.length,
-    read: state.read.length,
+    later: state.laterCards.length,
+    removed: state.removedCards.length,
+    read: state.readCards.length,
   }),
   (dispatch) => ({
     getTrending: ()=> dispatch(getTrending()),

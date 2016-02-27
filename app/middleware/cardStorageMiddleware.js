@@ -9,7 +9,7 @@ export default flip(asyncStorageMiddleware)({
   [REMOVE_CARD]: (storage, action, store)=> {
     storage.setItem(
       '@TINDLE:STORAGE',
-      JSON.stringify({ removed: store().removed })
+      JSON.stringify({ removedCards: store().removed })
     );
   }
 });

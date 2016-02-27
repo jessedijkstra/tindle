@@ -14,7 +14,7 @@ function updateCard(state, id, values) {
   });
 }
 
-export default function cards(state = initialState, action = {}) {
+export default function newCards(state = initialState, action = {}) {
   const { type, id } = action;
   const current = find(whereEq({ id }), state);
 

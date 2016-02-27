@@ -1,17 +1,17 @@
 import trending from './trending';
-import cards from './cards';
 import contents from './contents';
-import removed from './removed';
-import read from './read';
-import later from './later';
-import active from './active';
+import newCards from './newCards';
+import removedCards from './removedCards';
+import readCards from './readCards';
+import laterCards from './laterCards';
+import activeCard from './activeCard';
 
 export {
   trending,
-  cards,
+  newCards,
   contents,
-  removed,
-  read,
-  later,
-  active
+  removedCards,
+  readCards,
+  laterCards,
+  activeCard
 };

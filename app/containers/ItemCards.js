@@ -2,14 +2,14 @@ import React, { Component } from 'react-native';
 import { bindActionCreators } from 'redux';
 import ItemCards from '../components/ItemCards';
 import { remove, move, toggle } from '../actions/Card';
-import { without } from 'ramda';
+import { without } from '../selectors/cards';
 import { connect } from 'react-redux';
 
 export default connect(
-  (state, { filter }) => ({
-    active: state.active,
+  (state, { filter = 'newCards' }) => ({
+    active: state.activeCard,
     items: state.trending,
-    cards: without([...state.removed, ...state.later], state.cards),
+    cards: state[filter],
     contents: state.contents
   }),
   (dispatch) => ({
