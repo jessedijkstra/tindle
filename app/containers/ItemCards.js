@@ -6,10 +6,10 @@ import { without } from '../selectors/cards';
 import { connect } from 'react-redux';
 
 export default connect(
-  (state, { filter = 'newCards' }) => ({
+  (state) => ({
     active: state.activeCard,
     items: state.trending,
-    cards: state[filter],
+    cards: state[state.filter],
     contents: state.contents
   }),
   (dispatch) => ({

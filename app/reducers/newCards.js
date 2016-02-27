@@ -1,6 +1,6 @@
 import * as Types from '../actions/Types';
 import { manifests } from '../selectors/trending';
-import { find, whereEq, map, prop } from 'ramda';
+import { find, without, whereEq, map, prop } from 'ramda';
 
 const initialState = [];
 
@@ -21,6 +21,10 @@ export default function newCards(state = initialState, action = {}) {
   switch (action.type) {
     case Types.GET_TIMELINE_OK:
       return map(prop('id'), manifests(action.trending));
+
+    case Types.REMOVE_CARD:
+    case Types.PIN_CARD:
+      return without(id, state);
 
     default:
       return state;

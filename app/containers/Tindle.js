@@ -2,18 +2,18 @@ import React, { Component, AppState } from 'react-native';
 import { bindActionCreators } from 'redux';
 import Tindle from '../components/Tindle';
 import { getTrending } from '../actions/Trending';
+import { setFilter } from '../actions/Navigation';
 import { remove as removeCard } from '../actions/Card';
 import { populate as populateStorage } from '../actions/Storage';
 import { connect } from 'react-redux';
 
 class TindleContainer extends Component {
   componentDidMount () {
-    this.props.populateStorage();
-    this.props.getTrending();
+    this.props.onMount();
 
     AppState.addEventListener('change', (state)=> {
       if (state === 'active') {
-        this.props.getTrending();
+        this.props.onActivate();
       }
     });
   }
@@ -25,12 +25,15 @@ class TindleContainer extends Component {
 
 export default connect(
   (state) => ({
-    later: state.laterCards.length,
+    pinned: state.pinnedCards.length,
     removed: state.removedCards.length,
-    read: state.readCards.length,
+    new: state.newCards.length,
   }),
   (dispatch) => ({
-    getTrending: ()=> dispatch(getTrending()),
-    populateStorage: ()=> dispatch(populateStorage())
+    onMount: ()=> dispatch(getTrending()) && dispatch(populateStorage()),
+    onActivate: ()=> dispatch(getTrending()),
+    onNavigateToNew: ()=> dispatch(setFilter('newCards')),
+    onNavigateToRemoved: ()=> dispatch(setFilter('removedCards')),
+    onNavigateToPinned: ()=> dispatch(setFilter('pinnedCards'))
   })
 )(TindleContainer);

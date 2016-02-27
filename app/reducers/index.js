@@ -1,17 +1,17 @@
 import trending from './trending';
+import filter from './filter';
 import contents from './contents';
 import newCards from './newCards';
 import removedCards from './removedCards';
-import readCards from './readCards';
-import laterCards from './laterCards';
+import pinnedCards from './pinnedCards';
 import activeCard from './activeCard';
 
 export {
+  filter,
   trending,
   newCards,
   contents,
   removedCards,
-  readCards,
-  laterCards,
+  pinnedCards,
   activeCard
 };

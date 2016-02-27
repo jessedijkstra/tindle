@@ -1,16 +1,21 @@
 import * as Types from './Types';
 import { get as getContent } from '../actions/Content';
+import { pin } from '../actions/Item';
 
 function process (type, id, delta) {
   return { type, id, delta };
 }
 
 export function remove (id, delta) {
-  if (delta < 0) {
-    return process(Types.REMOVE_CARD, id, delta);
-  }
+  return dispatch => {
+    if (delta < 0) {
+      return dispatch(process(Types.REMOVE_CARD, id, delta));
+    }
 
-  return process(Types.READ_LATER_CARD, id, delta);
+    dispatch(process(Types.PIN_CARD, id, delta));
+
+    return dispatch(pin(id));
+  }
 }
 
 export function toggle (id, active) {
