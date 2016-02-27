@@ -49,8 +49,8 @@ const createPanResponder = (component, pan)=> PanResponder.create({
     var velocity;
 
     // Hack to make onPress events work with touch drags
+    // @TODO: Make a better implementation for press detection combiend with swipe events by using timers or better native components
     if (Math.abs(pan.x._value) < 1) {
-      console.warn('Make a better implementation for press detection combiend with swipe events by using timers or better native components');
       component.props.onPress(component.props.id, component.props.active);
       return;
     }
