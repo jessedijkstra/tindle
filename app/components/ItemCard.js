@@ -3,12 +3,11 @@ import Card from './Card';
 import Content from './Content';
 import { image } from '../selectors/manifest';
 
-export default ({ card, item, content, ...props })=> {
+export default ({ id, item, content, ...props })=> {
   return (
     <Card
-      {...card}
+      id={id}
       {...props}
-      remove={card.remove || card.readLater}
     >
       <Content
         image={image(item)}

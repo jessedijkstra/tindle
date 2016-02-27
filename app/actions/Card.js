@@ -1,5 +1,5 @@
 import * as Types from './Types';
-import { get } from '../actions/Content';
+import { get as getContent } from '../actions/Content';
 
 function process (type, id, delta) {
   return { type, id, delta };
@@ -17,7 +17,9 @@ export function toggle (id, active) {
   return dispatch =>  {
     dispatch(process(Types.TOGGLE_CARD, id));
 
-    return dispatch(get(id, active));
+    if (!active) {
+      return dispatch(getContent(id));
+    }
   }
 }
 

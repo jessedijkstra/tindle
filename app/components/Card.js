@@ -73,7 +73,7 @@ const createPanResponder = (component, pan)=> PanResponder.create({
 export default class Card extends React.Component {
   state = {
     pan: new Animated.ValueXY(),
-    enter: new Animated.Value(0.5)
+    scale: new Animated.Value(0.5)
   };
 
   componentWillMount () {
@@ -100,17 +100,12 @@ export default class Card extends React.Component {
   scaleCard () {
     const styleIndex = this.getStyleIndex();
 
-    if (this.props.remove) {
-      this.state.enter.setValue(0);
-
-      return;
-    }
-
     if (this.props.active) {
-      Animated.spring(
-        this.state.enter,
-        { toValue: 1, friction: 8 }
-      ).start();
+      Animated.timing(this.state.scale, {
+        duration: 200,
+        toValue: 1,
+        easing: Easing.out(Easing.quad),
+      }).start();
 
       return;
     }
@@ -118,13 +113,13 @@ export default class Card extends React.Component {
     const factor = (styleIndex === 1 ? 10 : 15);
 
     Animated.spring(
-      this.state.enter,
+      this.state.scale,
       { toValue: 1 - (styleIndex / factor), friction: 8 }
     ).start();
   }
 
   getAnimationStyle () {
-    const { pan, enter } = this.state;
+    const { pan, scale } = this.state;
     const [translateX, translateY] = [pan.x, pan.y];
     const { index } = this.props;
 
@@ -134,7 +129,7 @@ export default class Card extends React.Component {
     });
 
     return {
-      transform: [{ translateX }, { translateY }, { rotate }, { scale: enter }]
+      transform: [{ translateX }, { translateY }, { rotate }, { scale: scale }]
     };
   }
 

@@ -19,8 +19,8 @@ export default class Tindle extends Component {
             handler: ()=> console.warn('Implement Read Later Navigation')
           }}
           leftButton={{
-            title: `Deleted (${this.props.deleted})`, tintColor: 'white',
-            handler: ()=> console.warn('Implement Deleted Navigation')
+            title: `Removed (${this.props.removed})`, tintColor: 'white',
+            handler: ()=> console.warn('Implement Removed Navigation')
           }}
         />
       <ItemCardsContainer />

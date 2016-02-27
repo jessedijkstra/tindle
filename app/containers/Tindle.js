@@ -3,12 +3,13 @@ import { bindActionCreators } from 'redux';
 import Tindle from '../components/Tindle';
 import { getTrending } from '../actions/Trending';
 import { remove as removeCard } from '../actions/Card';
+import { populate as populateStorage } from '../actions/Storage';
 import { connect } from 'react-redux';
-import { filter as filterCards } from '../selectors/cards';
 
 class TindleContainer extends Component {
   componentDidMount () {
     this.props.getTrending();
+    this.props.populateStorage();
   }
 
   render () {
@@ -18,9 +19,12 @@ class TindleContainer extends Component {
 
 export default connect(
   (state) => ({
-    later: filterCards('readLater', state.cards).length,
-    deleted: filterCards('remove', state.cards).length,
-    read: filterCards('read', state.cards).length,
+    later: state.later.length,
+    removed: state.removed.length,
+    read: state.read.length,
   }),
-  (dispatch) => ({ getTrending: ()=> dispatch(getTrending()) })
+  (dispatch) => ({
+    getTrending: ()=> dispatch(getTrending()),
+    populateStorage: ()=> dispatch(populateStorage())
+  })
 )(TindleContainer);

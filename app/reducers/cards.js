@@ -1,6 +1,6 @@
 import * as Types from '../actions/Types';
 import { manifests } from '../selectors/trending';
-import { find, whereEq } from 'ramda';
+import { find, whereEq, map, prop } from 'ramda';
 
 const initialState = [];
 
@@ -20,21 +20,7 @@ export default function cards(state = initialState, action = {}) {
 
   switch (action.type) {
     case Types.GET_TIMELINE_OK:
-      return manifests(action.trending).map((manifest, index)=> ({
-        id: manifest.id,
-        manifest,
-        readLater: false,
-        remove: false
-      }));
-
-    case Types.READ_LATER_CARD:
-      return updateCard(state, id, { readLater: true, active: false, remove: false });
-
-    case Types.REMOVE_CARD:
-      return updateCard(state, id, { remove: true, active: false, readLater: false });
-
-    case Types.TOGGLE_CARD:
-      return updateCard(state, id, { active: !current.active });
+      return map(prop('id'), manifests(action.trending));
 
     default:
       return state;

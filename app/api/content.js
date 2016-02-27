@@ -1,6 +1,5 @@
 import { getJWT } from './jwt';
 import { curry } from 'ramda';
-import { CONTENT } from '../fixtures/content';
 
 const getContentWithJWT = curry((userUid, itemUid, { jwt })=> {
   return fetch(`https://ws.blendle.com/user/${userUid}/items`, {

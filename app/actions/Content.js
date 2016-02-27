@@ -6,7 +6,6 @@ export function get(itemUid) {
   return dispatch => (
     getContentAPI(refreshToken, userUid, itemUid)
       .then((content)=> {
-        console.log(content);
         dispatch({ type: Types.GET_CONTENT_OK, id: itemUid, content });
       })
   );
