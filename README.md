@@ -18,8 +18,8 @@ Press CMD+ALT+Z and enable Chrome Debugging/LiveReload. Open http://localhost:80
 You're all set!
 
 # Roadmap
-- [ ] Save deleted in store so they don't show up again
-- [ ] Fetch new items on app start
+- [X] Save deleted in store so they don't show up again
+- [ ] Fetch new items on app open
 - [ ] Save to read later when swiped right
 - [ ] Implement read later list
 - [ ] Implement deleted list
