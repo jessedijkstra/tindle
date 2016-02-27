@@ -1,4 +1,4 @@
-import React, { Component } from 'react-native';
+import React, { Component, AppState } from 'react-native';
 import { bindActionCreators } from 'redux';
 import Tindle from '../components/Tindle';
 import { getTrending } from '../actions/Trending';
@@ -8,8 +8,14 @@ import { connect } from 'react-redux';
 
 class TindleContainer extends Component {
   componentDidMount () {
-    this.props.getTrending();
     this.props.populateStorage();
+    this.props.getTrending();
+
+    AppState.addEventListener('change', (state)=> {
+      if (state === 'active') {
+        this.props.getTrending();
+      }
+    });
   }
 
   render () {
