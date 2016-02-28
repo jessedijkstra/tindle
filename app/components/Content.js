@@ -1,5 +1,5 @@
 import React, { Image, View } from 'react-native';
-import NodeFactory from './NodeFactory';
+import NodesFactory from './NodesFactory';
 import Dimensions from 'Dimensions';
 
 const { height, width } = Dimensions.get('window');
@@ -38,7 +38,7 @@ export default ({ body, image })=> (
     }}>
       {image ? <ContentImage image={resizeImage(image)} /> : null}
       <View style={{ padding: 20 }}>
-        {body.map(NodeFactory)}
+        {body.map(NodesFactory)}
       </View>
     </View>
   </View>
