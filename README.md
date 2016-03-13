@@ -20,9 +20,7 @@ You're all set!
 # Roadmap
 - Use Blendle Mailing tool endpoint for staff picks instead of trending
 - Optimize performance
-- Better reader with HTML parsing
 - Add notification where you swiped
-- Implement redux-storage instead of own storage implementation
 - Add login functionality that saves the refreshToken
 - Add pull down to complete reading
 - Add refund when you complete reading within 10 seconds
@@ -30,6 +28,10 @@ You're all set!
 - Android build
 
 # Changelog
+## 2016-03-13
+- Use redux-storage
+- Reimplemented the way items are loaded into cards
+
 ## 2016-02-27
 - Implement read later list
 - Implement deleted list

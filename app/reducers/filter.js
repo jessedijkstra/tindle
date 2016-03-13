@@ -1,7 +1,7 @@
 import { find, whereEq } from 'ramda';
 import * as Types from '../actions/Types';
 
-const initialState = 'newCards';
+const initialState = 'latest';
 
 export default function contents(state = initialState, action = {}) {
   const { type, filter } = action;

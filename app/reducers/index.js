@@ -1,17 +1,13 @@
+import app from './app';
 import trending from './trending';
 import filter from './filter';
 import contents from './contents';
-import newCards from './newCards';
-import removedCards from './removedCards';
-import pinnedCards from './pinnedCards';
-import activeCard from './activeCard';
+import cards from './cards';
 
 export {
+  app,
   filter,
   trending,
-  newCards,
   contents,
-  removedCards,
-  pinnedCards,
-  activeCard
+  cards
 };

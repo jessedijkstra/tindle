@@ -4,16 +4,16 @@ import { find, whereEq } from 'ramda';
 import { manifest } from '../selectors/trending';
 import { content } from '../selectors/contents';
 
-export default ({ active, items, contents, cards, onCardPress, onCardMove, onCardLeave })=> (
+export default ({ active, items, contents, onCardPress, onCardMove, onCardLeave })=> (
   <View style={{ flex: 1 }}>
-    {cards.map((id, index) => (
+    {items.map((item, index) => (
       <ItemCard
-        key={id}
-        id={id}
-        active={active === id}
-        item={manifest(id, items)}
-        content={content(id, contents)}
-        index={cards.length - index}
+        key={item.id}
+        id={item.id}
+        active={active === item.id}
+        item={item}
+        content={content(item.id, contents)}
+        index={items.length - index}
         onMove={onCardMove}
         onLeave={onCardLeave}
         onPress={onCardPress}

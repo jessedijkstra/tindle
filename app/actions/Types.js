@@ -7,7 +7,6 @@ export const REMOVE_CARD = 'REMOVE_CARD';
 export const MOVE_CARD = 'MOVE_CARD';
 
 export const GET_CONTENT_OK = 'GET_CONTENT_OK';
-export const POPULATE_STORAGE = 'POPULATE_STORAGE';
 
 export const SET_FILTER = 'SET_FILTER';
 

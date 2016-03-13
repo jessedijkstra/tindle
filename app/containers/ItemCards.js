@@ -2,15 +2,14 @@ import React, { Component } from 'react-native';
 import { bindActionCreators } from 'redux';
 import ItemCards from '../components/ItemCards';
 import { remove, move, toggle } from '../actions/Card';
-import { without } from '../selectors/cards';
 import { connect } from 'react-redux';
+import { manifests } from '../selectors/trending';
 
 export default connect(
   (state) => ({
-    active: state.activeCard,
-    items: state.trending,
-    cards: state[state.filter],
-    contents: state.contents
+    active: state.cards.active,
+    contents: state.contents,
+    items: manifests(state.trending).filter((manifest)=> state.cards[state.filter].includes(manifest.id))
   }),
   (dispatch) => ({
     onCardMove: (id, direction)=> dispatch(move(id, direction)),

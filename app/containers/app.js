@@ -1,21 +1,22 @@
-import React, { Component, AsyncStorage } from 'react-native';
+import React, { Component } from 'react-native';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
+import { createMiddleware, createLoader} from 'redux-storage'
 import createLogger from 'redux-logger';
-import cardStorageMiddleWare from '../middleware/cardStorageMiddleware';
+import createEngine from 'redux-storage-engine-reactnativeasyncstorage';
 
 import * as reducers from '../reducers';
 import Tindle from './Tindle';
 
-const middleware = applyMiddleware(
-  thunk,
-  createLogger(),
-  cardStorageMiddleWare(AsyncStorage)
-);
+const engine = createEngine('@TINDLE:STORAGE');
 
+const middleware = applyMiddleware(thunk, createMiddleware(engine), createLogger());
 const reducer = combineReducers(reducers);
 const store = createStore(reducer, {}, middleware);
+const load = createLoader(engine);
+
+load(store);
 
 export default class App extends Component {
   render() {

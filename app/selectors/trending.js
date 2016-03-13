@@ -1,8 +1,8 @@
-import { find, whereEq } from 'ramda';
+import { map, pipe, path, pathOr, find, whereEq } from 'ramda';
 
-export const manifests = (trending)=> (
-  trending._embedded['b:tiles']
-    .map((tile)=> tile._embedded['b:item']._embedded.manifest)
+export const manifests = pipe(
+  pathOr([], ['_embedded', 'b:tiles']),
+  map(path(['_embedded', 'b:item', '_embedded', 'manifest']))
 );
 
 export const manifest = (id, trending)=> (

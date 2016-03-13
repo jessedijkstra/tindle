@@ -28,6 +28,4 @@ export default ({ type, content }, index)=> {
   const style = Styles[type] || Styles.default;
 
   return <Text style={style} key={index}><HTMLView value={content} /></Text>
-
-  return <Element node={node} key={index} />;
 }
