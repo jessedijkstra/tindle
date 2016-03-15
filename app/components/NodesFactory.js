@@ -1,4 +1,4 @@
-import React, { Text, StyleSheet } from 'react-native';
+import React, { Text, PropTypes } from 'react-native';
 import HTMLView from 'react-native-htmlview';
 
 const Styles = {
@@ -24,8 +24,15 @@ const Styles = {
   }
 };
 
-export default ({ type, content }, index)=> {
+const NodesFactory = ({ type, content }, index) => {
   const style = Styles[type] || Styles.default;
 
-  return <Text style={style} key={index}><HTMLView value={content} /></Text>
-}
+  return <Text style={style} key={index}><HTMLView value={content} /></Text>;
+};
+
+NodesFactory.propTypes = {
+  type: PropTypes.string,
+  content: PropTypes.string
+};
+
+export default NodesFactory;

@@ -1,11 +1,12 @@
 import * as Types from './Types';
-import { refreshToken, userUid } from '../config/user';
 import { getTrending as getTrendingAPI } from '../api/trending';
+import { refreshTokenFromStore } from '../selectors/refreshToken';
+import { userUidFromStore } from '../selectors/user';
 
 export function getTrending() {
-  return dispatch => (
-    getTrendingAPI(refreshToken, userUid)
-      .then((trending)=> {
+  return (dispatch, getState) => (
+    getTrendingAPI(refreshTokenFromStore(getState()), userUidFromStore(getState()))
+      .then((trending) => {
         dispatch({
           type: Types.GET_TIMELINE_OK,
           trending
@@ -13,7 +14,7 @@ export function getTrending() {
 
         return Promise.resolve(trending);
       })
-      .catch((response)=> {
+      .catch((response) => {
         dispatch({ type: Types.GET_TIMELINE_ERROR, error: true });
 
         return Promise.reject(response);

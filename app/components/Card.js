@@ -1,9 +1,16 @@
-import React, { ScrollView, View, TouchableWithoutFeedback, Animated, PanResponder, Componen } from 'react-native';
-import clamp from 'clamp';
+import React, {
+  ScrollView,
+  View,
+  TouchableWithoutFeedback,
+  Animated,
+  PanResponder,
+  PropTypes
+} from 'react-native';
+
 import { partial } from 'ramda';
 import Dimensions from 'Dimensions';
 import Easing from 'Easing';
-const { height, width } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 const SWIPE_THRESHOLD = 40;
 
@@ -33,23 +40,23 @@ function getDirection(vx) {
   return 1;
 }
 
-const createPanResponder = (component, pan)=> PanResponder.create({
+const createPanResponder = (component, pan) => PanResponder.create({
   onMoveShouldSetResponderCapture: () => !component.props.active,
   onMoveShouldSetPanResponderCapture: () => !component.props.active,
   onPanResponderGrant: () => {
-    pan.setOffset({x: pan.x._value, y: pan.y._value});
-    pan.setValue({x: 0, y: 0});
+    pan.setOffset({ x: pan.x._value, y: pan.y._value });
+    pan.setValue({ x: 0, y: 0 });
   },
   onPanResponderMove: Animated.event(
-    [ null, {dx: pan.x, dy: pan.y} ],
-    ()=> component.props.onMove(component.props.id, pan.x._value)
+    [null, { dx: pan.x, dy: pan.y }],
+    () => component.props.onMove(component.props.id, pan.x._value)
   ),
-  onPanResponderRelease: (event, {vx, vy}) => {
+  onPanResponderRelease: (event, { vx, vy }) => {
     pan.flattenOffset();
-    var velocity;
 
     // Hack to make onPress events work with touch drags
-    // @TODO: Make a better implementation for press detection combiend with swipe events by using timers or better native components
+    // @TODO: Make a better implementation for press detection combiend with
+    // swipe events by using timers or better native components
     if (Math.abs(pan.x._value) < 1) {
       component.props.onPress(component.props.id, component.props.active);
       return;
@@ -58,82 +65,68 @@ const createPanResponder = (component, pan)=> PanResponder.create({
     if (Math.abs(pan.x._value) > SWIPE_THRESHOLD) {
       Animated.timing(pan, {
         duration: 100,
-        toValue: { x: (width + 100) * getDirection(vx), y: vy},
-        easing: Easing.out(Easing.ease),
-      }).start(()=> component.props.onLeave(component.props.id, pan.x._value));
+        toValue: { x: (width + 100) * getDirection(vx), y: vy },
+        easing: Easing.out(Easing.ease)
+      }).start(() => component.props.onLeave(component.props.id, pan.x._value));
     } else {
       Animated.spring(pan, {
-        toValue: {x: 0, y: 0},
+        toValue: { x: 0, y: 0 },
         friction: 4
-      }).start()
+      }).start();
     }
   }
 });
 
 export default class Card extends React.Component {
+  static propTypes = {
+    active: PropTypes.bool,
+    id: PropTypes.string,
+    index: PropTypes.number,
+    onPress: PropTypes.func,
+    children: PropTypes.node
+  };
+
   state = {
     pan: new Animated.ValueXY(),
     scale: new Animated.Value(0.5)
   };
 
-  componentWillMount () {
+  componentWillMount() {
     this.panResponder = createPanResponder(
       this,
       this.state.pan
     );
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.scaleCard();
   }
 
-  componentWillUpdate (nextProps) {
+  componentWillUpdate(nextProps) {
     if (!nextProps.active && this.props.active) {
       this.refs.scrollView.scrollTo(0);
     }
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate() {
     this.scaleCard();
   }
 
-  scaleCard () {
-    const styleIndex = this.getStyleIndex();
-
-    if (this.props.active) {
-      Animated.timing(this.state.scale, {
-        duration: 200,
-        toValue: 1,
-        easing: Easing.out(Easing.quad),
-      }).start();
-
-      return;
-    }
-
-    const factor = (styleIndex === 1 ? 10 : 15);
-
-    Animated.spring(
-      this.state.scale,
-      { toValue: 1 - (styleIndex / factor), friction: 8 }
-    ).start();
-  }
-
-  getAnimationStyle () {
+  getAnimationStyle() {
     const { pan, scale } = this.state;
     const [translateX, translateY] = [pan.x, pan.y];
-    const { index } = this.props;
 
     const rotate = pan.x.interpolate({
       inputRange: [-200, 0, 200],
-      outputRange: ["-10deg", "0deg", "10deg"]
+      outputRange: ['-10deg', '0deg', '10deg']
     });
 
     return {
-      transform: [{ translateX }, { translateY }, { rotate }, { scale: scale }]
+      transform: [{ translateX }, { translateY }, { rotate }, { scale }]
     };
   }
 
-  getStyle () {
+  getStyle() {
     const styleIndex = this.getStyleIndex();
     const offset = (styleIndex - 1) * 15;
     const shadowOpacity = this.getOpacity();
@@ -142,10 +135,10 @@ export default class Card extends React.Component {
       top: offset,
       bottom: (this.props.active ? 0 : offset * -1),
       shadowOpacity
-    }
+    };
   }
 
-  getOpacity () {
+  getOpacity() {
     const styleIndex = this.getStyleIndex();
     const opacity = style.shadowOpacity;
 
@@ -160,13 +153,35 @@ export default class Card extends React.Component {
     return 0;
   }
 
-  getStyleIndex () {
+  getStyleIndex() {
     const { index } = this.props;
 
     return Math.min(index, 3);
   }
 
-  render () {
+  scaleCard() {
+    const styleIndex = this.getStyleIndex();
+
+    if (this.props.active) {
+      Animated.timing(this.state.scale, {
+        duration: 200,
+        toValue: 1,
+        easing: Easing.out(Easing.quad)
+      }).start();
+
+      return;
+    }
+
+    const factor = (styleIndex === 1 ? 10 : 15);
+
+    Animated.spring(
+      this.state.scale,
+      { toValue: 1 - (styleIndex / factor), friction: 8 }
+    ).start();
+  }
+
+
+  render() {
     return (
         <Animated.View
           style={[this.getStyle(), this.getAnimationStyle()]}
@@ -175,11 +190,13 @@ export default class Card extends React.Component {
           <ScrollView
             ref="scrollView"
             scrollEnabled={this.props.active}
-            scrollsToTop={true}
+            scrollsToTop
             showsVerticalScrollIndicator={false}
           >
-            <TouchableWithoutFeedback onPress={partial(this.props.onPress, [this.props.id, this.props.active])}>
-              <View style={{ flex: 1}}>
+            <TouchableWithoutFeedback
+              onPress={partial(this.props.onPress, [this.props.id, this.props.active])}
+            >
+              <View style={{ flex: 1 }}>
                 {this.props.children}
               </View>
             </TouchableWithoutFeedback>

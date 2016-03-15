@@ -13,7 +13,7 @@ const initialState = {
 export default function cards(state = initialState, action = {}) {
   const { type, id, payload } = action;
 
-  switch (action.type) {
+  switch (type) {
     case LOAD:
       return payload.cards;
 

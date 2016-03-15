@@ -8,5 +8,5 @@ export function getJWT(refreshToken) {
     body: JSON.stringify({
       refresh_token: refreshToken
     })
-  }).then((response)=> response.json());
+  }).then((response) => response.json());
 }

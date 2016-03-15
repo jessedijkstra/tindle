@@ -12,3 +12,11 @@ export const SET_FILTER = 'SET_FILTER';
 
 export const PIN_ITEM_OK = 'PIN_ITEM_OK';
 export const PIN_ITEM_ERROR = 'PIN_ITEM_ERROR';
+
+export const LOGIN_EMAIL = 'LOGIN_EMAIL';
+export const LOGIN_PASSWORD = 'LOGIN_PASSWORD';
+export const LOGIN_OK = 'LOGIN_OK';
+export const LOGIN_PENDING = 'LOGIN_PENDING';
+export const LOGIN_ERROR = 'LOGIN_ERROR';
+
+export const LOGOUT = 'LOGOUT';

@@ -1,10 +1,8 @@
-import React, { View } from 'react-native';
+import React, { View, PropTypes } from 'react-native';
 import ItemCard from '../components/ItemCard';
-import { find, whereEq } from 'ramda';
-import { manifest } from '../selectors/trending';
 import { content } from '../selectors/contents';
 
-export default ({ active, items, contents, onCardPress, onCardMove, onCardLeave })=> (
+const ItemCards = ({ active, items, contents, onCardPress, onCardMove, onCardLeave }) => (
   <View style={{ flex: 1 }}>
     {items.map((item, index) => (
       <ItemCard
@@ -21,3 +19,14 @@ export default ({ active, items, contents, onCardPress, onCardMove, onCardLeave 
     ))}
   </View>
 );
+
+ItemCards.propTypes = {
+  active: PropTypes.string,
+  items: PropTypes.array,
+  contents: PropTypes.array,
+  onCardPress: PropTypes.func,
+  onCardMove: PropTypes.func,
+  onCardLeave: PropTypes.func
+};
+
+export default ItemCards;

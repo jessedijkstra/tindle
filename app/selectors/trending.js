@@ -5,6 +5,6 @@ export const manifests = pipe(
   map(path(['_embedded', 'b:item', '_embedded', 'manifest']))
 );
 
-export const manifest = (id, trending)=> (
+export const manifest = (id, trending) => (
   find(whereEq({ id }), manifests(trending))
 );

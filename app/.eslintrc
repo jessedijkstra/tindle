@@ -1,0 +1,11 @@
+{
+  "parser": "babel-eslint",
+  "plugins": [
+    "react"
+  ],
+  "extends": ["eslint:recommended", "plugin:react/recommended", "airbnb"],
+  "rules": {
+    "quote-props": [2, "consistent-as-needed"],
+    "comma-dangle": [2, "never"]
+  }
+}

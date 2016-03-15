@@ -1,13 +1,11 @@
-import * as Types from '../actions/Types';
 import { LOAD, SAVE } from 'redux-storage';
 
 const initialState = { loaded: false };
 
 export default function app(state = initialState, action = {}) {
-  const { type, payload } = action;
-  const current = state;
+  const { type } = action;
 
-  switch (action.type) {
+  switch (type) {
     case LOAD:
       return { ...state, loaded: true };
 

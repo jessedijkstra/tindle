@@ -1,16 +1,28 @@
-import React, { TouchableWithoutFeedback, Text, View, Component } from 'react-native';
+import React, { PropTypes, TouchableWithoutFeedback, Text, View } from 'react-native';
 
 import ItemCardsContainer from '../containers/ItemCards';
-import Content from './Content';
+import AuthorizedContainer from '../containers/AuthorizedContainer';
+import AuthenticationContainer from '../containers/AuthenticationContainer';
 import NavigationBar from 'react-native-navbar';
 
-const NavigationItem = ({ title, count, onPress })=> (
+const NavigationItem = ({ title, count, onPress }) => (
   <TouchableWithoutFeedback onPress={onPress}>
-    <Text style={{ color: '#fff', fontWeight: 'bold', lineHeight: 8, margin: 0, padding: 10 }}>{`${title} (${count})`}</Text>
+    <Text style={{ color: '#fff', fontWeight: 'bold', lineHeight: 8, margin: 0, padding: 10 }}>
+      {`${title} (${count})`}
+    </Text>
   </TouchableWithoutFeedback>
 );
 
-export default ({ latest, pinned, removed, onNavigateToNew, onNavigateToPinned, onNavigateToRemoved }) => (
+NavigationItem.propTypes = {
+  title: PropTypes.string,
+  count: PropTypes.number,
+  onPress: PropTypes.func
+};
+
+const Tindle = ({
+  latest, pinned, removed,
+  onNavigateToNew, onNavigateToPinned, onNavigateToRemoved
+}) => (
   <View style={{ flex: 1, backgroundColor: '#eee' }}>
     <NavigationBar
       tintColor="#FF6255"
@@ -18,6 +30,20 @@ export default ({ latest, pinned, removed, onNavigateToNew, onNavigateToPinned, 
       rightButton={<NavigationItem title="Pinned" count={pinned} onPress={onNavigateToPinned} />}
       leftButton={<NavigationItem title="Removed" count={removed} onPress={onNavigateToRemoved} />}
     />
-    <ItemCardsContainer />
+    <AuthenticationContainer />
+    <AuthorizedContainer>
+      <ItemCardsContainer />
+    </AuthorizedContainer>
   </View>
 );
+
+Tindle.propTypes = {
+  latest: PropTypes.number,
+  pinned: PropTypes.number,
+  removed: PropTypes.number,
+  onNavigateToNew: PropTypes.func,
+  onNavigateToPinned: PropTypes.func,
+  onNavigateToRemoved: PropTypes.func
+};
+
+export default Tindle;

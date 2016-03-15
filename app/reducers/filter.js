@@ -1,4 +1,3 @@
-import { find, whereEq } from 'ramda';
 import * as Types from '../actions/Types';
 
 const initialState = 'latest';
